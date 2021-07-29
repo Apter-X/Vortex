@@ -40,3 +40,10 @@ class Database:
             self.cursor.close()
             self.connection.close()
             print("[+] PostgreSQL connection is closed")
+
+    def store_data(self, obj, target=None):
+        timestamp = date.today()
+        new_id = str(uuid.uuid4())
+        self.execute("""  INSERT INTO companies (id, dict, target, timestamp) VALUES (%s, %s, %s, %s) """,
+                     [new_id, Json(obj), target, timestamp])
+        print(f"[+] object stored!")
