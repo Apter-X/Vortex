@@ -14,10 +14,10 @@ REQUEST_HEADERS = {
                   "Safari/537.36 "
 }
 LINK = {
-    "tag": "a",
-    "element": {"class": "moodalbox"}
+    "tag": "h5",
+    "element": {"class": "strong text-lowercase truncate"}
 }
-STRATEGY = {
+MAP = {
     "name": ["find_child", ["a", {"itemtype": "https://schema.org/WebPage"}], ["span", {"itemprop": "name"}]],
     "legal_form": ["find", ["td", {"class", "forme_td"}]],
     "capital": ["find", ["td", {"class": "capi_td"}]],

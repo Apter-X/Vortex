@@ -1,11 +1,11 @@
 class Mapper:
     def __init__(self, strategy):
         self.strategy = strategy
-        self.map = strategy.STRATEGY
+        self.map = strategy.MAP
         self.soup = ""
         self.links = set()
 
-    def map_links(self):
+    def set_links(self):
         results = self.soup.find_all(self.strategy.LINK["tag"], self.strategy.LINK["element"])
         for result in results:
             self.links.add(result.get("href"))
@@ -21,7 +21,8 @@ class Mapper:
             else:
                 data = funcs[self.map[target][0]](self.map[target][1][0], self.map[target][1][1])
                 mapped_object[target] = data
-        return mapped_object
+        if mapped_object:
+            return mapped_object
 
     def load_funcs(self):
         stored_funcs = {
