@@ -1,0 +1,34 @@
+version: 1
+disable_existing_loggers: False
+formatters:
+  simple:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: simple
+    stream: ext://sys.stdout
+  file:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: simple
+    filename: loginfo.log
+#    mode: w
+  email:
+    class: logging.handlers.SMTPHandler
+    level: ERROR
+    mailhost: localhost
+    fromaddr: app@kifal-auto.ma
+    toaddrs:
+      - contact@kifal-auto.ma
+      - dev-team@kifal-auto.ma
+    subject: Houston, we have a problem.
+loggers:
+  simpleExample:
+    level: DEBUG
+    handlers: [console]
+    propagate: no
+root:
+  level: DEBUG
+  handlers: [console, file]
