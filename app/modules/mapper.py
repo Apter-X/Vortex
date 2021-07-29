@@ -21,7 +21,6 @@ class Mapper:
             else:
                 data = funcs[self.map[target][0]](self.map[target][1][0], self.map[target][1][1])
                 mapped_object[target] = data
-        print(mapped_object)
         return mapped_object
 
     def load_funcs(self):
@@ -33,23 +32,23 @@ class Mapper:
         }
         return stored_funcs
 
-    def find(self, tag, target=None):
+    def find(self, tag, target):
         result = self.soup.find(tag, target)
         if result and result.text.strip():
             return result.text.strip()
 
-    def find_child(self, tag, target, child_tag, child_target=None):
+    def find_child(self, tag, target, child_tag, child_target):
         result = self.soup.find(tag, target).findChild(child_tag, child_target)
         if result and result.text.strip():
             return result.text.strip()
 
-    def find_all(self, tag, target=None):
+    def find_all(self, tag, target):
         result = self.soup.find_all(tag, target)
         if result:
             map_data = ' '.join(map(lambda a: a.text.strip(), result))
             return map_data
 
-    def get_href(self, tag, target=None):
+    def get_href(self, tag, target):
         result = self.soup.find(tag, target)
         if result:
             return result.get("href")
