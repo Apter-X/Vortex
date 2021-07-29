@@ -14,8 +14,8 @@ REQUEST_HEADERS = {
                   "Safari/537.36 "
 }
 LINK = {
-    "tag": "h5",
-    "element": {"class": "strong text-lowercase truncate"}
+    "tag": "a",
+    "element": {"class": "moodalbox"}
 }
 MAP = {
     "name": ["find_child", ["a", {"itemtype": "https://schema.org/WebPage"}], ["span", {"itemprop": "name"}]],

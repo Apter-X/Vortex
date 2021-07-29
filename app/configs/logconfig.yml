@@ -25,7 +25,7 @@ handlers:
       - dev-team@kifal-auto.ma
     subject: Houston, we have a problem.
 loggers:
-  simpleExample:
+  simpleLog:
     level: DEBUG
     handlers: [console]
     propagate: no
