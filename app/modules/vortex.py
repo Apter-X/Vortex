@@ -1,6 +1,5 @@
 import urllib.parse
 import requests
-import logging
 from app.modules.mapper import Mapper
 from bs4 import BeautifulSoup
 
