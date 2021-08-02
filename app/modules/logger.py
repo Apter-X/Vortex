@@ -1,4 +1,3 @@
-import yaml
 import logging
 import logging.config
 import os
@@ -6,9 +5,10 @@ import os
 
 class Logger:
     def __init__(self):
-        conf_path = os.path.dirname(__file__)
-        conf_path = conf_path[:-7]
-        conf_path = conf_path + "configs\\logconfig.yml"
+        path = os.path.dirname(__file__)
+        root_path = path[:-7]
+        conf_path = root_path + "configs\\logconfig.yml"
+        self.log_path = root_path + "loginfo.log"
 
         with open(conf_path, 'r') as stream:
             try:
@@ -32,3 +32,13 @@ class Logger:
 
     def critical(self, msg):
         self.log.critical(msg)
+
+    def find_all(self, regular_expression):
+        with open(self.log_path) as fp:
+            lines = fp.read().splitlines()
+
+        q = re.compile(regular_expression)
+        for line in lines:
+            key_val = q.findall(line)
+            if key_val:
+                print(line)
