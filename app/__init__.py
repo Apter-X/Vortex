@@ -2,7 +2,7 @@ from configs import database
 from strategies import telecontact, charika
 from modules.database import Database
 from app.modules.vortex import Vortex
-from app.modules.logger import Logger
+from app.modules.logger import Logger, build_regex
 from random import randint
 import time
 
@@ -12,15 +12,19 @@ def main():
     vrt = Vortex(telecontact)
     log = Logger()
 
-    request = vrt.build_request(1)
-    vrt.suck_page(request)
-    vrt.set_links()
-    for link in vrt.links:
-        request = vrt.strategy.URL + link
-        vrt.suck_page(request)
-        data = vrt.map_by_strategy()
+    expression = build_regex("urllib3.connectionpool", "DEBUG")
+    print(expression)
+    log.find_all(expression)
+
+    # request = vrt.build_request(1)
+    # vrt.suck_page(request)
+    # vrt.set_links()
+    # for link in vrt.links:
+    #     request = vrt.strategy.URL + link
+    #     vrt.suck_page(request)
+    #     data = vrt.map_by_strategy()
         # db.store_data(data, vrt.strategy.NAME)
-        time.sleep(randint(1, 3))
+        # time.sleep(randint(1, 3))
 
     # db.fetch(""" SELECT * FROM companies """)
     # db.disconnect()
