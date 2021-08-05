@@ -1,9 +1,7 @@
 import logging
 import logging.config
-import os
+from app.modules.system import System
 import re
-
-import yaml
 
 # ([0-9]{4})-([0-1][0-9])-([0-3][0-9]).([0-1][0-9]|[2][0-3]):
 # ([0-5][0-9]):([0-5][0-9]),([0-9]{3}).-.(urllib3.connectionpool).-.(DEBUG)
@@ -52,18 +50,10 @@ def build_regex(name, level, y=None, m=None, d=None, h=None, mi=None, s=None, ms
     return expression
 
 
-class Logger:
+class Logger(System):
     def __init__(self):
-        path = os.path.dirname(__file__)
-        root_path = path[:-7]
-        conf_path = root_path + "configs\\logconfig.yml"
-        self.log_path = root_path + "loginfo.log"
-
-        with open(conf_path, 'r') as stream:
-            try:
-                config = yaml.safe_load(stream)
-            except yaml.YAMLError as exc:
-                print(exc)
+        super().__init__()
+        config = self.read_yml("configs\\logconfig.yml", True)
         logging.config.dictConfig(config)
         self.log = logging.getLogger(__name__)
 
@@ -83,9 +73,7 @@ class Logger:
         self.log.critical(msg)
 
     def find_all(self, regular_expression):
-        with open(self.log_path) as fp:
-            lines = fp.read().splitlines()
-
+        lines = self.get_file_lines("loginfo.log", True)
         q = re.compile(regular_expression)
         for line in lines:
             key_val = q.findall(line)
