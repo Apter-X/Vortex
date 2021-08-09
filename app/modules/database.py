@@ -49,7 +49,8 @@ class Database:
         keys_pointer = str()
 
         if uid_key:
-            uid_val = str(uuid.uuid4())
+            first_value = list(dic.values())[0]
+            uid_val = str(uuid.uuid4()) + "-" + first_value
             targets.insert(0, uid_key)
             values.insert(0, uid_val)
 
@@ -62,6 +63,4 @@ class Database:
                 keys_pointer += "%s"
 
         query = f"""  INSERT INTO {table} ({keys_str}) VALUES ({keys_pointer}) """
-        print(query)
-        print(values)
-        # self.execute(query, values)
+        self.execute(query, values)
