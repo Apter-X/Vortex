@@ -22,7 +22,6 @@ class Mapper:
                 data = funcs[self.map[target][0]](self.map[target][1][0], self.map[target][1][1])
                 mapped_object[target] = data
         if mapped_object:
-            print(f'[+] Data scraped: {mapped_object}')
             return mapped_object
 
     def load_funcs(self):
