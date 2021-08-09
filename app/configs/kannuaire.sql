@@ -22,7 +22,7 @@ CREATE TABLE legal
  legal_form  varchar(50) NOT NULL,
  year        date NOT NULL,
  capital     int NOT NULL,
- Effective   varchar(50) NOT NULL,
+ effective   varchar(50) NOT NULL,
  CONSTRAINT PK_legal PRIMARY KEY ( legal_id ),
  CONSTRAINT FK_41 FOREIGN KEY ( business_id ) REFERENCES businesses ( business_id )
 );
