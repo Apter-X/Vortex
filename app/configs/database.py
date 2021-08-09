@@ -1,8 +1,7 @@
-DATABASE = {
+LOGIN = {
     "user": "postgres",
     "password": "toor",
     "host": "localhost",
     "port": "5432",
-    "database": "Vortex"
+    "database": "kannuaire"
 }
-
