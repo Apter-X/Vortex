@@ -1,7 +1,7 @@
 from strategies import telecontact, charika
 from app.modules.factory import Factory
 from app.modules.vortex import Vortex
-from app.modules.logger import build_regex
+from helpers import regex
 
 
 def main():
