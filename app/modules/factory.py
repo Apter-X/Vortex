@@ -6,11 +6,12 @@ import time
 
 
 class Factory(Database):
-    def __init__(self, schema, engine):
+    def __init__(self, engine):
         super().__init__(config.LOGIN)
         self.logger = Logger()
         self.engine = engine
         self.data = {}
+        self.stage = {}
 
     def extract(self, current, end):
         while current <= end:
@@ -23,18 +24,32 @@ class Factory(Database):
                 request = self.engine.strategy.URL + link
                 self.engine.suck_page(request)
                 self.data = self.engine.map_by_strategy()
+                print(self.data)
+                self.transform()
                 time.sleep(randint(1, 3))
-        self.logger.warning('Extraction End')
+        self.logger.warning('Extraction over')
 
     def transform(self):
-        pass
+        for table in self.engine.strategy.SCHEMA:
+            for key in self.engine.strategy.SCHEMA[table]:
+                self.stage[key] = self.data[key]
+            self.load(table)
+            self.stage = {}
 
-    def load(self):
-        pass
+        for table_assoc in self.engine.strategy.ASSOCIATIONS:
+            for table in self.engine.strategy.ASSOCIATIONS[table_assoc]:
+                assoc1 = self.ids[table]
+                # self.stage = self.ids[table]
+        print(self.stage)
+        self.stage = {}
+        self.ids = {}
+
+    def load(self, table):
+        self.ids[table] = self.create_row(table, self.stage, table+'_id')
 
     def elastic_pipe(self):
         path_desktop = self.logger.root[:-19]
-        logstash_path = path_desktop + "ElasticStack\\logstash-7.13.4\\bin\\logstash.bat"
+        logstash_path = path_desktop + 'ElasticStack\\logstash-7.13.4\\bin\\logstash.bat'
         self.logger.execute_bat(logstash_path)
 
     def __del__(self):
