@@ -6,12 +6,9 @@ from helpers import regex
 
 def main():
     engine = Vortex(telecontact)
-    factory = Factory('schema', engine)
-    # factory.extract(1, 2)
-
-    expression = build_regex("app.modules.logger")
-    factory.logger.find_all(expression)
+    factory = Factory(engine)
+    factory.extract(1, 1)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
