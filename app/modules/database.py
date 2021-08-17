@@ -24,6 +24,8 @@ class Database:
         except (Exception, psycopg2.Error) as error:
             print("Error while connecting to PostgreSQL", error)
 
+        self.ids = {}
+
     def fetch(self, sql_query, values=()):
         self.cursor.execute(sql_query, values)
         record = self.cursor.fetchone()
@@ -42,17 +44,29 @@ class Database:
     def check_table(self, table):
         self.fetch(f""" SELECT * FROM {table} """)
 
-    def create_row(self, table, dic, uid_key=None):
+    def create_row(self, table, dic, uid_key=None, foreign_key=None):
+        """Parameters
+        ----------
+        table : basestring
+        dic : dict
+        uid_key : basestring
+        foreign_key : dict
+        """
+        uid_val = ""
         targets = list(dic.keys())
         values = list(dic.values())
         keys_str = str()
         keys_pointer = str()
 
         if uid_key:
-            first_value = list(dic.values())[0]
-            uid_val = str(uuid.uuid4()) + "-" + first_value
+            uid_val = str(uuid.uuid4())
             targets.insert(0, uid_key)
             values.insert(0, uid_val)
+            self.ids[uid_key] = uid_val
+
+        if foreign_key:
+            targets.insert(1, foreign_key)
+            values.insert(1, self.ids[foreign_key])
 
         for i, target in enumerate(targets):
             if i != len(targets) - 1:
@@ -63,4 +77,6 @@ class Database:
                 keys_pointer += "%s"
 
         query = f"""  INSERT INTO {table} ({keys_str}) VALUES ({keys_pointer}) """
-        self.execute(query, values)
+        # self.execute(query, values)
+        print(query, values)
+        return {uid_key: uid_val}
