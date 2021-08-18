@@ -46,7 +46,7 @@ def main():
                 else:
                     engine = Vortex(base)
                     factory.__init__(engine)
-                    factory.extract(start_at, end_at)
+                    factory.start(start_at, end_at)
 
         elif choice == '2':
             print("*----------------------------------*")

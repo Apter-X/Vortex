@@ -31,14 +31,3 @@ MAP = {
     'services': ['find_all', ['a', {'class': 'rubrique-client'}]],
     'activities': ['find_all', ['a', {'style': 'margin:2px;font-size: 17px;'}]]
 }
-SCHEMA = {
-    'businesses': ['name', 'about', 'website'],
-    'contacts': ['telephone'],
-    'legal': ['legal_form', 'year', 'capital', 'effective'],
-    'activities': ['activities'],
-    'services': ['services']
-}
-ASSOCIATIONS = {
-    'businesses_activities': ['businesses', 'activities'],
-    'businesses_services': ['businesses', 'services']
-}
