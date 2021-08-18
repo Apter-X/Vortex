@@ -16,7 +16,7 @@ class Mapper:
         for target in self.map:
             if self.map[target][0] == "find_child":
                 data = funcs[self.map[target][0]](self.map[target][1][0], self.map[target][1][1],
-                                                        self.map[target][2][0], self.map[target][2][1])
+                                                  self.map[target][2][0], self.map[target][2][1])
                 mapped_object[target] = data
             elif self.map[target][0] == "find_precisely":
                 data = funcs[self.map[target][0]](self.map[target][1][0], self.map[target][1][1],
