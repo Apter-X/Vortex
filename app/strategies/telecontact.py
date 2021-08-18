@@ -26,7 +26,7 @@ MAP = {
     'type': ['find', ['td', {'class', 'type_eta_td'}]],
     'website': ['get_href', ['a', {'class', 'btn-results-products'}]],
     'telephone': ['find_all', ['div', {'class', 'letel'}]],  # Need to be clean
-    # 'address': ['find_all', ['div', {'class': 'col-xs-12'}]],  # Need to be clean
+    'address': ['find_precisely', ['div', {'class': 'col-xs-12'}], 5],
     'about': ['find', ['p', {'itemprop': 'description'}]],
     'services': ['find_all', ['a', {'class': 'rubrique-client'}]],
     'activities': ['find_all', ['a', {'style': 'margin:2px;font-size: 17px;'}]]
