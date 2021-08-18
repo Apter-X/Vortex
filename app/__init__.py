@@ -11,6 +11,7 @@ def main():
         print("    + Menu Principal +")
         print("(1) - Débuter le Scraping")
         print("(2) - Consulter le fichier log")
+        print("(3) - Quitter")
         print("*----------------------------------*")
         choice = input("Veuillez choisir le numéro correspondant : ")
         if choice == '1':
@@ -18,6 +19,7 @@ def main():
             print("    + Menu Scraper +")
             print("(1) - Telecontact")
             print("(2) - Charika")
+            print("(3) - Retour")
             print("*----------------------------------*")
             choice = input("Veuillez choisir le numéro correspondant : ")
             base = None
@@ -31,6 +33,8 @@ def main():
                 base = charika
                 start_at = input("A partir de la page : ")
                 end_at = input("Jusqu'à la page : ")
+            elif choice == '3':
+                pass
             else:
                 print('\033[93m' + "Réponse incorrect ! Veuillez réessayer. (1)" + '\033[0m')
             if start_at and end_at:
@@ -43,19 +47,29 @@ def main():
                     engine = Vortex(base)
                     factory.__init__(engine)
                     factory.extract(start_at, end_at)
-            else:
-                print('\033[93m' + "Réponse incorrect ! Veuillez réessayer. (3)" + '\033[0m')
 
         elif choice == '2':
             print("*----------------------------------*")
             print("    + Menu log +")
-            print("N.B: Laissez ce champ vide pour consulter tout le fichier log.")
-            print("Ex.: ([0-9]{4})-([0-1][0-9])-([0-3][0-9]).([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9]),"
-                  "([0-9]{3}).-.(app.modules.logger).-.(DEBUG)")
+            print("(1) - Afficher le fichier log")
+            print("(2) - Chercher par expression lambda")
+            print("(3) - Retour")
             print("*----------------------------------*")
-            print("Veuillez utiliser une \"regular expression\" afin d'affiner votre recherche.")
-            expression = input()
-            factory.logger.find_all(expression)
+            choice = input("Veuillez choisir le numéro correspondant : ")
+            if choice == '1':
+                factory.logger.find_all('')
+            elif choice == '2':
+                print("Ex.: ([0-9]{4})-([0-1][0-9])-([0-3][0-9]).([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9]),"
+                      "([0-9]{3}).-.(app.modules.logger).-.(DEBUG)")
+                print("Veuillez utiliser une expression lambda afin d'affiner votre recherche.")
+                expression = input()
+                factory.logger.find_all(expression)
+            elif choice == '3':
+                pass
+            else:
+                print('\033[93m' + "Réponse incorrect ! Veuillez réessayer. (3)" + '\033[0m')
+        elif choice == '3':
+            break
         else:
             print('\033[93m' + "Réponse incorrect ! Veuillez réessayer. (4)" + '\033[0m')
 
