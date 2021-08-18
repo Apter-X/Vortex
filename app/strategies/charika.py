@@ -14,5 +14,6 @@ MAP = {
     'name': ['find', ['a', {'class': 'goto-fiche'}]],
     'address': ['find', ['label', None]],
     'description': ['find', ['div', {'class': 'truncate-m'}]],
-    'prestation': ['find_all', ['label', {'class': 'truncate'}]]
+    'legal_form': ['find_precisely', ['td', {'class': 'col-xs-7 nopaddingleft'}], 2],
+    'capital': ['find_precisely', ['td', {'class': 'col-xs-7 nopaddingleft'}], 3]
 }

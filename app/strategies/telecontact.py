@@ -25,7 +25,9 @@ MAP = {
     'year': ['find', ['td', {'class', 'annee_creation_td'}]],
     'type': ['find', ['td', {'class', 'type_eta_td'}]],
     'website': ['get_href', ['a', {'class', 'btn-results-products'}]],
-    'telephone': ['find_all', ['div', {'class', 'letel'}]],  # Need to be clean
+    'tel1': ['find_precisely', ['div', {'class', 'letel'}], 0],
+    'tel2': ['find_precisely', ['div', {'class', 'letel'}], 1],
+    'fax': ['find_precisely', ['div', {'class', 'letel'}], 2],
     'address': ['find_precisely', ['div', {'class': 'col-xs-12'}], 5],
     'about': ['find', ['p', {'itemprop': 'description'}]],
     'services': ['find_all', ['a', {'class': 'rubrique-client'}]],

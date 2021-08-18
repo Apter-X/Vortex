@@ -64,5 +64,6 @@ class Mapper:
         if result:
             map_data = map(lambda a: a.text.strip(), result)
             for i, data in enumerate(map_data):
+                # print(i, data)
                 if i == n:
                     return data
