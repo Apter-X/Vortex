@@ -30,10 +30,11 @@ def main():
             else:
                 print("Réponse incorrect ! Veuillez réessayer. (1)")
             if start_at and end_at:
-                start_at = int(start_at)
-                end_at = int(end_at)
-                if type(start_at) is not int or type(end_at) is not int:
-                    print("Réponse incorrect ! Veuillez réessayer. (2)")
+                try:
+                    start_at = int(start_at)
+                    end_at = int(end_at)
+                except ValueError:
+                    print('\033[93m' + f"Réponse incorrect ! Veuillez réessayer. (2)" + '\033[0m')
                 else:
                     engine = Vortex(base)
                     factory.__init__(engine)
