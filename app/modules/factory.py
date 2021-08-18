@@ -6,7 +6,7 @@ import time
 
 
 class Factory(Database):
-    def __init__(self, engine):
+    def __init__(self, engine=None):
         super().__init__(config.LOGIN)
         self.logger = Logger()
         self.engine = engine
@@ -25,7 +25,8 @@ class Factory(Database):
                 self.engine.suck_page(request)
                 self.data = self.engine.map_by_strategy()
                 print(self.data)
-                self.transform()
+                # self.transform()
+                # self.store_brute_data(self.data, self.engine.strategy.NAME)
                 time.sleep(randint(1, 3))
         self.logger.warning('Extraction over')
 
@@ -45,7 +46,7 @@ class Factory(Database):
         self.ids = {}
 
     def load(self, table):
-        self.ids[table] = self.create_row(table, self.stage, table+'_id')
+        self.ids[table] = self.store_data(table, self.stage, table+'_id')
 
     def elastic_pipe(self):
         path_desktop = self.logger.root[:-19]

@@ -1,10 +1,12 @@
 import psycopg2
+from psycopg2.extras import Json, DictCursor
 import uuid
+# from datetime import date
 
 
 class Database:
     def __init__(self, config):
-        print("[+] Connecting to database...")
+        # print("[+] Connecting to database...")
         try:
             self.connection = psycopg2.connect(user=config["user"],
                                                password=config["password"],
@@ -12,14 +14,14 @@ class Database:
                                                port=config["port"],
                                                database=config["database"])
 
-            self.cursor = self.connection.cursor()
+            self.cursor = self.connection.cursor(cursor_factory=DictCursor)
             # Print PostgreSQL Connection properties
-            print(self.connection.get_dsn_parameters(), "\n")
+            # print(self.connection.get_dsn_parameters(), "\n")
 
             # Print PostgreSQL version
             self.cursor.execute("SELECT version();")
-            record = self.cursor.fetchone()
-            print("[+] Connecting succeed to - ", record, "\n")
+            # record = self.cursor.fetchone()
+            # print("[+] Connecting succeed to - ", record, "\n")
 
         except (Exception, psycopg2.Error) as error:
             print("Error while connecting to PostgreSQL", error)
@@ -39,12 +41,19 @@ class Database:
         if self.connection:
             self.cursor.close()
             self.connection.close()
-            print("[+] PostgreSQL connection is closed")
+            # print("[+] PostgreSQL connection is closed")
 
     def check_table(self, table):
         self.fetch(f""" SELECT * FROM {table} """)
 
-    def create_row(self, table, dic, uid_key=None, foreign_key=None):
+    def store_brute_data(self, obj, target=None):
+        # timestamp = date.today()
+        new_id = str(uuid.uuid4()) + '-' + str(uuid.uuid4())
+        self.execute("""  INSERT INTO companies (id, dict, target, cleaned) VALUES (%s, %s, %s, %s) """,
+                     [new_id, Json(obj), target, False])
+        # print(f"[+] object stored!")
+
+    def store_data(self, table, dic, uid_key=None, foreign_key=None):
         """Parameters
         ----------
         table : basestring
