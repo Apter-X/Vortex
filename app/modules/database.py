@@ -1,12 +1,15 @@
 import psycopg2
 from psycopg2.extras import Json, DictCursor
 import uuid
+from app.modules.system import System
 # from datetime import date
 
 
 class Database:
-    def __init__(self, config):
+    def __init__(self):
         # print("[+] Connecting to database...")
+        sys = System()
+        config = sys.read_yml('configs\\database.yml', True)
         try:
             self.connection = psycopg2.connect(user=config["user"],
                                                password=config["password"],

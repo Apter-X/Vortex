@@ -1,4 +1,3 @@
-from app.configs import database as config
 from app.modules.database import Database
 from app.modules.logger import Logger
 from random import randint
@@ -7,7 +6,7 @@ import time
 
 class Factory(Database):
     def __init__(self, engine=None):
-        super().__init__(config.LOGIN)
+        super().__init__()
         self.logger = Logger()
         self.engine = engine
         self.data = {}
