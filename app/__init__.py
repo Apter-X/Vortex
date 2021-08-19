@@ -1,12 +1,14 @@
 from strategies import telecontact, charika
 from app.modules.factory import Factory
 from app.modules.vortex import Vortex
+from app.modules.system import clear
 from helpers import regex
 
 
 def main():
     factory = Factory()
     while True:
+        clear()
         print("*----------------------------------*")
         print("    + Menu Principal +")
         print("(1) - Débuter le Scraping")
@@ -15,6 +17,7 @@ def main():
         print("*----------------------------------*")
         choice = input("Veuillez choisir le numéro correspondant : ")
         if choice == '1':
+            clear()
             print("*----------------------------------*")
             print("    + Menu Scraper +")
             print("(1) - Telecontact")
@@ -44,11 +47,14 @@ def main():
                 except ValueError:
                     print('\033[93m' + f"Réponse incorrect ! Veuillez réessayer. (2)" + '\033[0m')
                 else:
+                    clear()
                     engine = Vortex(base)
                     factory.__init__(engine)
                     factory.start(start_at, end_at)
+                    input()
 
         elif choice == '2':
+            clear()
             print("*----------------------------------*")
             print("    + Menu log +")
             print("(1) - Afficher le fichier log")
@@ -58,12 +64,14 @@ def main():
             choice = input("Veuillez choisir le numéro correspondant : ")
             if choice == '1':
                 factory.logger.find_all('')
+                input()
             elif choice == '2':
                 print("Ex.: ([0-9]{4})-([0-1][0-9])-([0-3][0-9]).([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9]),"
                       "([0-9]{3}).-.(app.modules.logger).-.(DEBUG)")
                 print("Veuillez utiliser une expression lambda afin d'affiner votre recherche.")
                 expression = input()
                 factory.logger.find_all(expression)
+                input()
             elif choice == '3':
                 pass
             else:
