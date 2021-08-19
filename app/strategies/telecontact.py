@@ -27,7 +27,6 @@ MAP = {
     'website': ['get_href', ['a', {'class', 'btn-results-products'}]],
     'tel1': ['find_precisely', ['div', {'class', 'letel'}], 0],
     'tel2': ['find_precisely', ['div', {'class', 'letel'}], 1],
-    'fax': ['find_precisely', ['div', {'class', 'letel'}], 2],
     'address': ['find_precisely', ['div', {'class': 'col-xs-12'}], 5],
     'about': ['find', ['p', {'itemprop': 'description'}]],
     'services': ['find_all', ['a', {'class': 'rubrique-client'}]],
