@@ -28,7 +28,7 @@ def clear():
 class System:
     def __init__(self):
         path = os.path.dirname(__file__)
-        self.root = path[:-7]
+        self.root = path[:-11]
 
     def load_file(self, path, from_root=False):
         if from_root:
