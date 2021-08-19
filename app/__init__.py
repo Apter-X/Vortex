@@ -40,12 +40,14 @@ def main():
                 pass
             else:
                 print('\033[93m' + "Réponse incorrect ! Veuillez réessayer. (1)" + '\033[0m')
+                input()
             if start_at and end_at:
                 try:
                     start_at = int(start_at)
                     end_at = int(end_at)
                 except ValueError:
                     print('\033[93m' + f"Réponse incorrect ! Veuillez réessayer. (2)" + '\033[0m')
+                    input()
                 else:
                     clear()
                     engine = Vortex(base)
@@ -76,10 +78,12 @@ def main():
                 pass
             else:
                 print('\033[93m' + "Réponse incorrect ! Veuillez réessayer. (3)" + '\033[0m')
+                input()
         elif choice == '3':
             break
         else:
             print('\033[93m' + "Réponse incorrect ! Veuillez réessayer. (4)" + '\033[0m')
+            input()
 
 
 if __name__ == '__main__':
