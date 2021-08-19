@@ -29,7 +29,7 @@ class Vortex(Mapper):
         try:
             rsp = requests.get(request, headers=self.strategy.REQUEST_HEADERS)
             if rsp.status_code != 200:
-                raise (Exception("REQUEST FAILED WITH STATUS CODE {rsp.status_code}"))
+                raise (Exception(f"REQUEST FAILED WITH STATUS CODE {rsp.status_code}"))
 
         except Exception as e:
             print("Error while get page results", e)

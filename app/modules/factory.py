@@ -15,7 +15,7 @@ class Factory(Database):
     def start(self, current, end):
         while current <= end:
             request = self.engine.build_request(current)
-            self.logger.info(f'Start extraction from page {current}')
+            self.logger.info(f'Start extraction from {self.engine.strategy.NAME} the page number {current}')
             current += 1
             self.engine.suck_page(request)
             self.engine.set_links()
@@ -24,7 +24,7 @@ class Factory(Database):
                 self.engine.suck_page(request)
                 self.data = self.engine.map_by_strategy()
                 print(self.data)
-                # self.store_brute_data(self.data, self.engine.strategy.NAME)
+                self.store_brute_data(self.data, self.engine.strategy.NAME)
                 time.sleep(randint(1, 3))
         self.logger.warning('Extraction over')
 
