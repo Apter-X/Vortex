@@ -13,7 +13,7 @@ handlers:
     class: logging.FileHandler
     level: DEBUG
     formatter: simple
-    filename: loginfo.log
+    filename: ../loginfo.log
 #    mode: w
   email:
     class: logging.handlers.SMTPHandler
