@@ -51,7 +51,7 @@ class Database:
 
     def store_brute_data(self, obj, target=None):
         # timestamp = date.today()
-        new_id = str(uuid.uuid4()) + '-' + str(uuid.uuid4())
+        new_id = str(uuid.uuid4())
         self.execute("""  INSERT INTO companies (id, dict, target, cleaned) VALUES (%s, %s, %s, %s) """,
                      [new_id, Json(obj), target, False])
         # print(f"[+] object stored!")
