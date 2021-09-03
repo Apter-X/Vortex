@@ -25,6 +25,7 @@ class Factory(Database):
                 print(self.data)
                 self.store_brute_data(self.data, self.engine.strategy.NAME)
                 time.sleep(randint(1, 3))
+            self.engine.links = set()
         self.logger.warning('Extraction over')
 
     def try_target(self, link):
