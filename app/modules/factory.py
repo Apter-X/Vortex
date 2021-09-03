@@ -27,5 +27,10 @@ class Factory(Database):
                 time.sleep(randint(1, 3))
         self.logger.warning('Extraction over')
 
+    def try_target(self, link):
+        self.engine.suck_page(link)
+        data = self.engine.map_by_strategy()
+        print(data)
+
     def __del__(self):
         self.disconnect()
