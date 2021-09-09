@@ -1,7 +1,7 @@
 import psycopg2
 from psycopg2.extras import Json, DictCursor
-import uuid
 from app.modules.system import System
+import uuid
 # from datetime import date
 
 
@@ -51,9 +51,9 @@ class Database:
 
     def store_brute_data(self, obj, target=None):
         # timestamp = date.today()
-        new_id = str(uuid.uuid4())
-        self.execute("""  INSERT INTO companies (id, dict, target, cleaned) VALUES (%s, %s, %s, %s) """,
-                     [new_id, Json(obj), target, False])
+        # new_id = str(uuid.uuid4())
+        self.execute("""  INSERT INTO companies (dict, target) VALUES (%s, %s) """,
+                     [Json(obj), target])
         # print(f"[+] object stored!")
 
     def store_data(self, table, dic, uid_key=None, foreign_key=None):
