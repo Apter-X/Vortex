@@ -8,15 +8,16 @@ REQUEST_HEADERS = {
 }
 LINK = {
     'tag': 'a',
-    'element': {'class': 'goto-fiche'}
+    'element': {'style': 'color:#D97B46'}
 }
 MAP = {
-    'name': ['find', ['a', {'class': 'goto-fiche'}]],
+    'name': ['find', ['a', {'style': 'cursor: default; text-decoration: none'}]],
     'address': ['find', ['label', None]],
-    'description': ['find', ['div', {'class': 'truncate-m'}]],
-    'tel1': ['find_precisely', ['div', {'class': 'col-sm-11 col-xs-11 nopadding'}], 1],
-    'fax': ['find_precisely', ['div', {'class': 'col-sm-11 col-xs-11 nopadding'}], 2],
-    'email': ['find_precisely', ['div', {'class': 'col-sm-11 col-xs-11 nopadding'}], 3],
+    'about': ['find', ['div', {'class': 'truncate-m'}]],
+    'tel1': ['find_precisely', ['span', {'class': 'marketingInfoTelFax'}], 1],
+    'tel2': ['find_precisely', ['span', {'class': 'marketingInfoTelFax'}], 2],
+    'email': ['find_precisely', ['a', {'target': '_blank'}], 1],
     'legal_form': ['find_precisely', ['td', {'class': 'col-xs-7 nopaddingleft'}], 2],
     'capital': ['find_precisely', ['td', {'class': 'col-xs-7 nopaddingleft'}], 3]
 }
+
