@@ -59,6 +59,11 @@ class Mapper:
         if result:
             return result.get("href")
 
+    def get_value(self, tag, target):
+        result = self.soup.find(tag, target)
+        if result:
+            return result.get("value")
+
     def find_precisely(self, tag, target, n):
         result = self.soup.find_all(tag, target)
         if result:
