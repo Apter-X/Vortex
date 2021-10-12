@@ -7,6 +7,9 @@ from helpers import regex
 
 def main():
     factory = Factory()
+    # engine = Vortex(charika)
+    # factory.__init__(engine)
+    # factory.try_target('https://charika.ma/societe-entreprise-hadj-taoufiqi-90166')
     while True:
         clear()
         print("*----------------------------------*")
