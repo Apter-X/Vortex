@@ -23,7 +23,10 @@ class Factory(Database):
                 self.engine.suck_page(request)
                 self.data = self.engine.map_by_strategy()
                 self.logger.info(self.data)
-                self.store_brute_data(self.data, self.engine.strategy.NAME)
+                try:
+                    self.store_brute_data(self.data, self.engine.strategy.NAME)
+                except Exception as e:
+                    self.logger.error(e)
                 time.sleep(randint(1, 3))
             self.engine.links = set()
         self.logger.warning('Extraction over')
