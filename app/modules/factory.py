@@ -12,7 +12,8 @@ class Factory(Database):
         self.data = {}
 
     def start(self, current, end):
-        while current <= end:
+        try_count = 0
+        while current <= end or try_count <= 3:
             request = self.engine.build_request(current)
             self.logger.info(f'Start extraction from {self.engine.strategy.NAME} the page number {current}')
             current += 1
@@ -25,8 +26,10 @@ class Factory(Database):
                 self.logger.info(self.data)
                 try:
                     self.store_brute_data(self.data, self.engine.strategy.NAME)
+                    try_count = 0
                 except Exception as e:
                     self.logger.error(e)
+                    try_count += 1
                 time.sleep(randint(1, 3))
             self.engine.links = set()
         self.logger.warning('Extraction over')
