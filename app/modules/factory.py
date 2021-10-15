@@ -39,5 +39,11 @@ class Factory(Database):
         data = self.engine.map_by_strategy()
         print(data)
 
+    def try_store_target(self, link):
+        self.engine.suck_page(link)
+        data = self.engine.map_by_strategy()
+        self.store_brute_data(data, self.engine.strategy.NAME)
+        print(data)
+
     def __del__(self):
         self.disconnect()
