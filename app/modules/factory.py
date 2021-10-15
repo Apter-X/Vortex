@@ -13,7 +13,7 @@ class Factory(Database):
 
     def start(self, current, end):
         try_count = 0
-        while current <= end or try_count <= 3:
+        while current <= end and try_count < 3:
             request = self.engine.build_request(current)
             self.logger.info(f'Start extraction from {self.engine.strategy.NAME} the page number {current}')
             current += 1
