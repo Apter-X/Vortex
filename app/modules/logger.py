@@ -1,6 +1,6 @@
 import logging
 import logging.config
-from app.modules.system import System
+from modules.system import System
 import re
 
 

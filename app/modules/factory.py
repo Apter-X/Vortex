@@ -1,5 +1,5 @@
-from app.modules.database import Database
-from app.modules.logger import Logger
+from modules.database import Database
+from modules.logger import Logger
 from random import randint
 import time
 

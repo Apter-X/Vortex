@@ -1,6 +1,6 @@
 import psycopg2
 from psycopg2.extras import Json, DictCursor
-from app.modules.system import System
+from modules.system import System
 import uuid
 # from datetime import date
 
