@@ -17,6 +17,7 @@ MAP = {
     'tel1': ['find_precisely', ['span', {'class': 'marketingInfoTelFax'}], 1],
     'tel2': ['find_precisely', ['span', {'class': 'marketingInfoTelFax'}], 2],
     'email': ['find_precisely', ['a', {'target': '_blank'}], 1],
+    # 'website': ['find_precisely', ['a', {'target': '_blank'}], 2],
     'legal_form': ['find_precisely', ['td', {'class': 'col-xs-7 nopaddingleft'}], 2],
     'capital': ['find_precisely', ['td', {'class': 'col-xs-7 nopaddingleft'}], 3]
 }
