@@ -19,5 +19,7 @@ MAP = {
     'fp': ['find_precisely', ['span', {'class': 'sc-1x0vz2r-0 gEZokL'}], 1],
     'transmission': ['find_precisely', ['span', {'class': 'sc-1x0vz2r-0 gEZokL'}], 2],
     'pr': ['find', ['p', {'class': 'sc-1x0vz2r-0 dUNDMm'}]],
-    'author': ['find', ['p', {'class': 'sc-1x0vz2r-0 fQAjsC sc-1ii0n73-5 dCqFdX'}]]
+    'author': ['find', ['p', {'class': 'sc-1x0vz2r-0 fQAjsC sc-1ii0n73-5 dCqFdX'}]],
+    'pt': ['find_precisely', ['span', {'class': 'sc-1x0vz2r-0 eOIPVs'}], 1],
+    'ph': ['find_regex', ['script', {'id': '__NEXT_DATA__'}], '\"phone\":\"([05|06|07][\d]*)\",|\"phone\": \"([05|06|07][\d]*)\",']
 }
