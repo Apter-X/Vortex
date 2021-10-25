@@ -1,4 +1,5 @@
-import re
+from regex import regex as re
+
 
 class Mapper:
     def __init__(self, strategy):
@@ -78,8 +79,8 @@ class Mapper:
 
     def find_regex(self, tag, target, regex):
         result = self.soup.find(tag, target)
-        if result and result.text.strip():
-            matches = re.finditer(regex, result.text.strip())
+        if result:
+            matches = re.finditer(regex, str(result))
             for matchNum, match in enumerate(matches, start=1):
                 return match.group(1)
                 # print("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum=matchNum,
