@@ -1,3 +1,5 @@
+import re
+
 class Mapper:
     def __init__(self, strategy):
         self.strategy = strategy
@@ -18,7 +20,7 @@ class Mapper:
                 data = funcs[self.map[target][0]](self.map[target][1][0], self.map[target][1][1],
                                                   self.map[target][2][0], self.map[target][2][1])
                 mapped_object[target] = data
-            elif self.map[target][0] == "find_precisely":
+            elif self.map[target][0] == "find_precisely" or self.map[target][0] == "find_regex":
                 data = funcs[self.map[target][0]](self.map[target][1][0], self.map[target][1][1],
                                                   self.map[target][2])
                 mapped_object[target] = data
@@ -30,11 +32,12 @@ class Mapper:
 
     def load_funcs(self):
         stored_funcs = {
-            "find": self.find,
-            "find_child": self.find_child,
-            "find_all": self.find_all,
-            "get_href": self.get_href,
-            "find_precisely": self.find_precisely
+            'find': self.find,
+            'find_child': self.find_child,
+            'find_all': self.find_all,
+            'get_href': self.get_href,
+            'find_precisely': self.find_precisely,
+            'find_regex': self.find_regex
         }
         return stored_funcs
 
@@ -69,6 +72,25 @@ class Mapper:
         if result:
             map_data = map(lambda a: a.text.strip(), result)
             for i, data in enumerate(map_data):
-                # print(i, data)
+                # print(i, data) # list all finds
                 if i == n:
                     return data
+
+    def find_regex(self, tag, target, regex):
+        result = self.soup.find(tag, target)
+        if result and result.text.strip():
+            matches = re.finditer(regex, result.text.strip())
+            for matchNum, match in enumerate(matches, start=1):
+                return match.group(1)
+                # print("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum=matchNum,
+                #                                                                     start=match.start(),
+                #                                                                     end=match.end(),
+                #                                                                     match=match.group()))
+                #
+                # for groupNum in range(0, len(match.groups())):
+                #     groupNum = groupNum + 1
+                #
+                #     print("Group {groupNum} found at {start}-{end}: {group}".format(groupNum=groupNum,
+                #                                                                     start=match.start(groupNum),
+                #                                                                     end=match.end(groupNum),
+                #                                                                     group=match.group(groupNum)))
