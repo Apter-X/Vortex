@@ -9,7 +9,7 @@ class Database:
     def __init__(self):
         # print("[+] Connecting to database...")
         sys = System()
-        config = sys.read_yml('configs\\database.yml', True)
+        config = sys.read_yml('configs/database.yml', True)
         try:
             self.connection = psycopg2.connect(user=config["user"],
                                                password=config["password"],

@@ -7,7 +7,7 @@ import re
 class Logger(System):
     def __init__(self):
         super().__init__()
-        config = self.read_yml('configs\\logconfig.yml', True)
+        config = self.read_yml('configs/logconfig.yml', True)
         logging.config.dictConfig(config)
         self.log = logging.getLogger(__name__)
         self.results = []
