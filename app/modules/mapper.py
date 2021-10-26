@@ -82,7 +82,10 @@ class Mapper:
         if result:
             matches = re.finditer(regex, str(result))
             for matchNum, match in enumerate(matches, start=1):
-                return match.group(1)
+                try:
+                    return match.group(1)
+                except Exception as e:
+                    return match.group()
                 # print("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum=matchNum,
                 #                                                                     start=match.start(),
                 #                                                                     end=match.end(),
