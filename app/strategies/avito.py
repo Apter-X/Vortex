@@ -8,7 +8,7 @@ REQUEST_HEADERS = {
 }
 LINK = {
     'tag': 'a',
-    'element': {'class': 'oan6tk-1 jkKPKg'}
+    'element': {'class': 'oan6tk-1 iZTmPK'}
 }
 MAP = {
     'br': ['find_regex', ['script', {'id': '__NEXT_DATA__'}],
