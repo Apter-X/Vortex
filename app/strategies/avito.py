@@ -28,7 +28,7 @@ MAP = {
     'pr': ['find_regex', ['script', {'id': '__NEXT_DATA__'}],
            '"price":\\{"value":([0-9]+?),'],
     'pt': ['find_regex', ['script', {'id': '__NEXT_DATA__'}],
-           '[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}'],
+           '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}'],
     'ph': ['find_regex', ['script', {'id': '__NEXT_DATA__'}],
            '"phone":"([05|06|07][\\d]*)",|"phone": "([05|06|07][\\d]*)",'],
     'doors': ['find_regex', ['script', {'id': '__NEXT_DATA__'}],
