@@ -36,5 +36,7 @@ MAP = {
     'origin': ['find_regex', ['script', {'id': '__NEXT_DATA__'}],
                '"key":"v_origin","label":"Origine","value":"(.+?)"'],
     'first_owner': ['find_regex', ['script', {'id': '__NEXT_DATA__'}],
-                    '"key":"first_owner","label":"Première main","value":"(.+?)"']
+                    '"key":"first_owner","label":"Première main","value":"(.+?)"'],
+    'city': ['find_regex', ['script', {'id': '__NEXT_DATA__'}],
+             '"city":"(.+?)"']
 }
