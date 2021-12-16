@@ -34,6 +34,12 @@ class Factory(Database):
             self.engine.links = set()
         self.logger.warning('Extraction over')
 
+    def try_set_links(self, link):
+        self.engine.suck_page(link)
+        self.engine.set_links()
+        print(self.engine.links)
+        print(len(self.engine.links))
+
     def try_target(self, link):
         self.engine.suck_page(link)
         data = self.engine.map_by_strategy()
