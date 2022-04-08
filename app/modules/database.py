@@ -92,3 +92,6 @@ class Database:
         # self.execute(query, values)
         print(query, values)
         return {uid_key: uid_val}
+
+    def __del__(self):
+        self.disconnect()
