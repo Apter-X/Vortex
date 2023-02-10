@@ -1,5 +1,11 @@
+#user: annuaire_user
+#password: Kifal_annuUser1234PassW0rd2021
+#host: vopluskifal2.cw1pg84tpzbr.eu-west-3.rds.amazonaws.com
+#port: 5432
+#database: annuaire
+
 user: postgres
 password: toor
 host: localhost
 port: 5432
-database: kannuaire
+database: aviscrap

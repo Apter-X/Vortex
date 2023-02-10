@@ -16,6 +16,7 @@ class Factory(Database):
         self.engine = engine
         self.data = {}
         self.startTime = datetime.now()
+        self.saved = False
 
     def start(self, current, end):
         try_count = 0
@@ -93,16 +94,22 @@ class Factory(Database):
             try:
                 self.engine.suck_page(request)
                 self.engine.set_links()
+
+                print("[+] Saving links...")
+                for link in self.engine.links:
+                    self.analyze.append(link, self.data)
+
+                self.analyze.save_to_csv('../data/auto_save_analyzer.csv')
                 self.logger.info(f"Links: {len(self.engine.links)}")
                 time.sleep(2)
             except Exception as e:
                 self.logger.warning(e)
+                self.watch(request)
             except KeyboardInterrupt:
-                print("[+] Saving links...")
-                for link in self.engine.links:
-                    self.analyze.append(link, self.data)
-                self.analyze.save_to_csv('../data/auto_save_analyzer.csv')
                 break
 
     def __del__(self):
+        if self.engine.links:
+            pass
+
         self.logger.info("Execution Time: {}".format(datetime.now() - self.startTime))
