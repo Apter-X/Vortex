@@ -3,16 +3,11 @@ import msvcrt
 from datetime import datetime
 from random import randint
 
-from modules.analyzer import Analyzer
-from modules.database import Database
-from modules.logger import Logger
 
-
-class Factory(Database):
-    def __init__(self, engine=None):
-        super().__init__()
-        self.logger = Logger()
-        self.analyze = Analyzer()
+class Factory:
+    def __init__(self, logger, db, engine=None):
+        self.logger = logger
+        self.db = db
         self.engine = engine
         self.data = {}
         self.startTime = datetime.now()
@@ -28,18 +23,16 @@ class Factory(Database):
             for link in self.engine.links:
                 request = self.engine.strategy.URL + link
                 self.engine.suck_page(request)
-                self.data = self.engine.map_by_strategy()
+                self.data = self.engine.map.map_by_schema()
                 self.logger.info(self.data)
                 try:
-                    self.analyze.append(link, self.data)
-                    # self.store_brute_data(self.data, self.engine.strategy.NAME)
+                    self.db.store_brute_data(self.data, self.engine.strategy.NAME)
                     try_count = 0
                 except Exception as e:
                     self.logger.error(e)
                     try_count += 1
                 time.sleep(randint(1, 3))
             self.engine.links = set()
-        self.analyze.save_to_csv('analyze_start.csv')
         self.logger.warning('Extraction over')
 
     def try_set_links(self, link):
@@ -56,7 +49,7 @@ class Factory(Database):
     def try_store_target(self, link):
         self.engine.suck_page(link)
         data = self.engine.map_by_strategy()
-        self.store_brute_data(data, self.engine.strategy.NAME)
+        self.db.store_brute_data(data, self.engine.strategy.NAME)
         print(data)
 
     def start_links_first(self, current, end):
@@ -73,18 +66,15 @@ class Factory(Database):
         for link in self.engine.links:
             request = self.engine.strategy.URL + link
             self.engine.suck_page(request)
-            self.data = self.engine.map_by_strategy()
+            self.data = self.engine.map.map_by_schema()
             self.logger.info(self.data)
             try:
-                self.analyze.append(link, self.data)
-                # self.store_brute_data(self.data, self.engine.strategy.NAME)
+                self.db.store_brute_data(self.data, self.engine.strategy.NAME)
                 try_count = 0
             except Exception as e:
                 self.logger.error(e)
                 try_count += 1
             time.sleep(randint(1, 3))
-
-        self.analyze.save_to_csv('analyze_start_links.csv')
         self.engine.links = set()
         self.logger.warning('Extraction over')
 
@@ -100,8 +90,7 @@ class Factory(Database):
             except KeyboardInterrupt:
                 print("[+] Saving links...")
                 for link in self.engine.links:
-                    self.analyze.append(link, self.data)
-                self.analyze.save_to_csv('../data/auto_save_analyzer.csv')
+                    self.logger.info(self.data)
                 break
 
     def __del__(self):

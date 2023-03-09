@@ -1,13 +1,10 @@
 import logging
 import logging.config
-from modules.system import System
 import re
 
 
-class Logger(System):
-    def __init__(self):
-        super().__init__()
-        config = self.read_yml('configs/logconfig.yml', True)
+class Logger:
+    def __init__(self, config):
         logging.config.dictConfig(config)
         self.log = logging.getLogger(__name__)
         self.results = []
@@ -27,11 +24,11 @@ class Logger(System):
     def critical(self, msg):
         self.log.critical(msg)
 
-    def find_all(self, regular_expression):
-        lines = self.get_file_lines('loginfo.log', True)
+    """ lines = system.get_file_lines('loginfo.log', True) """
+    def regex_log(self, lines, regular_expression):
         q = re.compile(regular_expression)
         for line in lines:
             key_val = q.findall(line)
             if key_val:
                 self.results.append(line)
-                print(line)
+        return self.results

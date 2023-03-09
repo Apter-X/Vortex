@@ -2,18 +2,18 @@ from regex import regex as re
 
 
 class Mapper:
-    def __init__(self, strategy):
-        self.strategy = strategy
-        self.map = strategy.MAP
+    def __init__(self, schema):
+        self.schema = schema
+        self.map = schema.MAP
         self.soup = None
         self.links = set()
 
     def set_links(self):
-        results = self.soup.find_all(self.strategy.LINK["tag"], self.strategy.LINK["element"])
+        results = self.soup.find_all(self.schema.LINK["tag"], self.schema.LINK["element"])
         for result in results:
             self.links.add(result.get("href"))
 
-    def map_by_strategy(self):
+    def map_by_schema(self):
         funcs = self.load_funcs()
         mapped_object = {}
         for target in self.map:

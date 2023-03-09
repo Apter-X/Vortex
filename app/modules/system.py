@@ -1,9 +1,13 @@
+import sys
 import os
 import subprocess
 import yaml
 
 
-class bcolors:
+argv = sys.argv
+
+
+class BColors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -26,9 +30,8 @@ def clear():
 
 
 class System:
-    def __init__(self):
-        path = os.path.dirname(__file__)
-        self.root = path[:-11]
+    def __init__(self, root):
+        self.root = root
 
     def load_file(self, path, from_root=False):
         if from_root:

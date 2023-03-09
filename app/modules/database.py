@@ -1,28 +1,28 @@
 import psycopg2
 from psycopg2.extras import Json, DictCursor
-from modules.system import System
 import uuid
-# from datetime import date
 
 
 class Database:
-    def __init__(self):
-        # print("[+] Connecting to database...")
-        sys = System()
-        config = sys.read_yml('configs/database.yml', True)
+    def __init__(self, config, keep_alive=False):
+        # TODO: add keep_alive param
         try:
             self.connection = psycopg2.connect(user=config["user"],
                                                password=config["password"],
                                                host=config["host"],
                                                port=config["port"],
-                                               database=config["database"])
+                                               database=config["database"],
+                                               keepalives=1,
+                                               keepalives_idle=30,
+                                               keepalives_interval=10,
+                                               keepalives_count=5)
 
             self.cursor = self.connection.cursor(cursor_factory=DictCursor)
             # Print PostgreSQL Connection properties
             # print(self.connection.get_dsn_parameters(), "\n")
 
             # Print PostgreSQL version
-            self.cursor.execute("SELECT version();")
+            # self.cursor.execute("SELECT version();")
             # record = self.cursor.fetchone()
             # print("[+] Connecting succeed to - ", record, "\n")
 
@@ -34,7 +34,7 @@ class Database:
     def fetch(self, sql_query, values=()):
         self.cursor.execute(sql_query, values)
         record = self.cursor.fetchone()
-        print(record)
+        return record
 
     def execute(self, sql_query, values=()):
         self.cursor.execute(sql_query, values)
@@ -44,16 +44,15 @@ class Database:
         if self.connection:
             self.cursor.close()
             self.connection.close()
-            # print("[+] PostgreSQL connection is closed")
+            print("PostgreSQL connection is closed")
 
-    def check_table(self, table):
-        self.fetch(f""" SELECT * FROM {table} """)
+    def fetch_all_table(self, table):
+        self.fetch(f"""SELECT * FROM {table};""")
 
     def store_brute_data(self, obj, target=None):
         # timestamp = date.today()
         # new_id = str(uuid.uuid4())
-        self.execute("""  INSERT INTO companies (dict, target) VALUES (%s, %s) """,
-                     [Json(obj), target])
+        self.execute("""INSERT INTO companies (dict, target) VALUES (%s, %s);""", [Json(obj), target])
         # print(f"[+] object stored!")
 
     def store_data(self, table, dic, uid_key=None, foreign_key=None):
@@ -88,10 +87,18 @@ class Database:
                 keys_str += target
                 keys_pointer += "%s"
 
-        query = f"""  INSERT INTO {table} ({keys_str}) VALUES ({keys_pointer}) """
-        # self.execute(query, values)
+        query = f"""INSERT INTO {table} ({keys_str}) VALUES ({keys_pointer});"""
+        self.execute(query, values)
         print(query, values)
         return {uid_key: uid_val}
+
+    def refresh_mat_view(self, view_name, with_data=True):
+        query = f"""REFRESH MATERIALIZED VIEW {view_name}"""
+        if with_data:
+            query += ";"
+        else:
+            query += " WITH NO DATA;"
+        self.execute(query)
 
     def __del__(self):
         self.disconnect()
