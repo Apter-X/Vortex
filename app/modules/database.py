@@ -1,11 +1,10 @@
-import psycopg2
-from psycopg2.extras import Json, DictCursor
 import uuid
+import psycopg2
+from psycopg2.extras import Json, DictCursor, NamedTupleCursor
 
 
 class Database:
-    def __init__(self, config, keep_alive=False):
-        # TODO: add keep_alive param
+    def __init__(self, config):
         try:
             self.connection = psycopg2.connect(user=config["user"],
                                                password=config["password"],
@@ -15,45 +14,74 @@ class Database:
                                                keepalives=1,
                                                keepalives_idle=30,
                                                keepalives_interval=10,
-                                               keepalives_count=5)
+                                               keepalives_count=5
+                                               )
 
             self.cursor = self.connection.cursor(cursor_factory=DictCursor)
-            # Print PostgreSQL Connection properties
+            # Print Postgresql Connection properties
             # print(self.connection.get_dsn_parameters(), "\n")
 
-            # Print PostgreSQL version
+            # Print Postgresql version
             # self.cursor.execute("SELECT version();")
             # record = self.cursor.fetchone()
             # print("[+] Connecting succeed to - ", record, "\n")
 
         except (Exception, psycopg2.Error) as error:
-            print("Error while connecting to PostgreSQL", error)
+            print("Error while connecting to Postgresql!", error)
 
         self.ids = {}
 
-    def fetch(self, sql_query, values=()):
-        self.cursor.execute(sql_query, values)
+    def fetch(self, sql_query):
+        self.cursor.execute(sql_query)
         record = self.cursor.fetchone()
+        return record
+
+    def fetch_assoc(self, sql_query):
+        self.cursor = self.connection.cursor(cursor_factory=NamedTupleCursor)
+
+        self.cursor.execute(sql_query)
+        record = self.cursor.fetchall()
+        return record
+
+    def fetchone(self, table, values=()):
+        self.cursor.execute("""SELECT * FROM {}""".format(table), values)
+        record = self.cursor.fetchone()
+        return record
+
+    def fetchall(self, table, values=()):
+        self.cursor.execute("""SELECT * FROM {}""".format(table), values)
+        record = self.cursor.fetchall()
+        return record
+
+    def fetchall_assoc(self, table):
+        self.cursor = self.connection.cursor(cursor_factory=NamedTupleCursor)
+
+        self.cursor.execute("""SELECT * FROM {}""".format(table))
+        record = self.cursor.fetchall()
         return record
 
     def execute(self, sql_query, values=()):
         self.cursor.execute(sql_query, values)
-        self.connection.commit()
+        result = self.cursor.fetchall()
+        return result
 
     def disconnect(self):
-        if self.connection:
+        if self.cursor:
             self.cursor.close()
+        if self.connection:
             self.connection.close()
-            print("PostgreSQL connection is closed")
+        print("Postgresql connection is closed.")
 
-    def fetch_all_table(self, table):
-        self.fetch(f"""SELECT * FROM {table};""")
+    def commit(self):
+        self.connection.commit()
+
+    def rollback(self):
+        self.connection.rollback()
 
     def store_brute_data(self, obj, target=None):
         # timestamp = date.today()
         # new_id = str(uuid.uuid4())
-        self.execute("""INSERT INTO companies (dict, target) VALUES (%s, %s);""", [Json(obj), target])
-        # print(f"[+] object stored!")
+        self.execute("""  INSERT INTO companies (dict, target) VALUES (%s, %s) """, [Json(obj), target])
 
     def store_data(self, table, dic, uid_key=None, foreign_key=None):
         """Parameters
@@ -87,7 +115,8 @@ class Database:
                 keys_str += target
                 keys_pointer += "%s"
 
-        query = f"""INSERT INTO {table} ({keys_str}) VALUES ({keys_pointer});"""
+        query = f"""  INSERT INTO {table} ({keys_str}) VALUES ({keys_pointer}) """
+
         self.execute(query, values)
         print(query, values)
         return {uid_key: uid_val}
