@@ -10,29 +10,38 @@ class Factory:
         self.engine = engine
         self.data = {}
         self.startTime = datetime.now()
+        self.stats = {
+            "num_results": 0
+        }
 
     def start(self, current, end):
         try_count = 0
         while current <= end and try_count < 3:
             request = self.engine.build_request(current)
-            self.logger.info(f'Start extraction from {self.engine.schema.name} the page number {current}')
-            current += 1
+            self.logger.info(f"Start extraction from {self.engine.map.schema['name']} the page number {current}")
             self.engine.suck_page(request)
-            self.engine.set_links()
-            for link in self.engine.links:
-                request = self.engine.schema.url + link
-                self.engine.suck_page(request)
+            self.engine.map.set_links()
+            for link in self.engine.map.links:
+                request = self.engine.map.schema['url'] + str(link).replace(self.engine.map.schema['url'], '')
+                try:
+                    self.engine.suck_page(request)
+                except Exception as e:
+                    self.logger.error('Error while get page results ' + str(e))
                 self.data = self.engine.map.map_by_schema()
                 self.logger.info(self.data)
                 try:
-                    self.db.store_brute_data(self.data, self.engine.schema.name, link)
+                    # self.db.store_brute_data(self.data, self.engine.schema.name, link)
                     try_count = 0
                 except Exception as e:
                     self.logger.error(e)
                     try_count += 1
                 time.sleep(randint(1, 3))
             self.engine.links = set()
-        self.logger.warning('Extraction over')
+            current += 1
+        if try_count > 2:
+            self.logger.error('An error occurred while scraping!')
+        else:
+            self.logger.info('Extraction over')
 
     def watch(self, request):
         while True:
@@ -51,7 +60,7 @@ class Factory:
 
     def try_set_links(self, link):
         self.engine.suck_page(link)
-        self.engine.set_links()
+        self.engine.map.set_links()
         print(self.engine.links)
         print(len(self.engine.links))
 
