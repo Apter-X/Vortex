@@ -15,17 +15,17 @@ class Factory:
         try_count = 0
         while current <= end and try_count < 3:
             request = self.engine.build_request(current)
-            self.logger.info(f'Start extraction from {self.engine.strategy.NAME} the page number {current}')
+            self.logger.info(f'Start extraction from {self.engine.schema.name} the page number {current}')
             current += 1
             self.engine.suck_page(request)
             self.engine.set_links()
             for link in self.engine.links:
-                request = self.engine.strategy.URL + link
+                request = self.engine.schema.url + link
                 self.engine.suck_page(request)
                 self.data = self.engine.map.map_by_schema()
                 self.logger.info(self.data)
                 try:
-                    self.db.store_brute_data(self.data, self.engine.strategy.NAME)
+                    self.db.store_brute_data(self.data, self.engine.schema.name)
                     try_count = 0
                 except Exception as e:
                     self.logger.error(e)
@@ -57,13 +57,13 @@ class Factory:
 
     def try_target(self, link):
         self.engine.suck_page(link)
-        data = self.engine.map_by_strategy()
+        data = self.engine.map.map_by_schema()
         print(data)
 
     def try_store_target(self, link):
         self.engine.suck_page(link)
-        data = self.engine.map_by_strategy()
-        self.db.store_brute_data(data, self.engine.strategy.NAME)
+        data = self.engine.map.map_by_schema()
+        self.db.store_brute_data(data, self.engine.schema.name)
         print(data)
 
     def __del__(self):

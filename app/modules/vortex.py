@@ -6,18 +6,17 @@ from bs4 import BeautifulSoup
 class Vortex:
     def __init__(self, mapper):
         self.map = mapper
-        self.soup = None
         self.stats = {
             "num_results": 0
         }
 
     def build_request(self, page):
-        request = self.map.strategy.URL
-        if self.map.strategy.PREFIX:
-            request += self.map.strategy.PREFIX
+        request = self.map.schema.url
+        if self.map.schema.prefix:
+            request += self.map.schema.prefix
 
-        if self.map.strategy.QUERY_PARAMS:
-            request += urllib.parse.urlencode(self.map.strategy.QUERY_PARAMS)
+        if self.map.schema.queries:
+            request += urllib.parse.urlencode(self.map.schema.queries)
             request += f"&page={page}"
         else:
             request += str(page)
@@ -27,11 +26,11 @@ class Vortex:
     def suck_page(self, request):
         rsp = ""
         try:
-            rsp = requests.get(request, headers=self.map.strategy.REQUEST_HEADERS)
+            rsp = requests.get(request, headers=self.map.schema['headers'])
+
             if rsp.status_code != 200:
                 raise (Exception(f"REQUEST FAILED WITH STATUS CODE {rsp.status_code}"))
-
         except Exception as e:
             print("Error while get page results", e)
 
-        self.soup = BeautifulSoup(rsp.content, features="lxml")
+        self.map.soup = BeautifulSoup(rsp.content, features="lxml")

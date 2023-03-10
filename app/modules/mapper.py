@@ -4,12 +4,12 @@ from regex import regex as re
 class Mapper:
     def __init__(self, schema):
         self.schema = schema
-        self.map = schema.MAP
+        self.map = self.schema['map']
         self.soup = None
         self.links = set()
 
     def set_links(self):
-        results = self.soup.find_all(self.schema.LINK["tag"], self.schema.LINK["element"])
+        results = self.soup.find_all(self.schema['link']["tag"], self.schema['link']["element"])
         for result in results:
             self.links.add(result.get("href"))
 
