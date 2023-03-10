@@ -40,7 +40,7 @@ class Database:
         self.cursor = self.connection.cursor(cursor_factory=NamedTupleCursor)
 
         self.cursor.execute(sql_query)
-        record = self.cursor.fetchall()
+        record = self.cursor.fetchone()
         return record
 
     def fetchone(self, table, values=()):
