@@ -25,7 +25,7 @@ class Factory:
                 self.data = self.engine.map.map_by_schema()
                 self.logger.info(self.data)
                 try:
-                    self.db.store_brute_data(self.data, self.engine.schema.name)
+                    self.db.store_brute_data(self.data, self.engine.schema.name, link)
                     try_count = 0
                 except Exception as e:
                     self.logger.error(e)
@@ -63,7 +63,7 @@ class Factory:
     def try_store_target(self, link):
         self.engine.suck_page(link)
         data = self.engine.map.map_by_schema()
-        self.db.store_brute_data(data, self.engine.schema.name)
+        self.db.store_brute_data(data, self.engine.map.schema['name'])
         print(data)
 
     def __del__(self):

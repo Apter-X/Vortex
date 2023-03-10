@@ -60,10 +60,10 @@ class Database:
         record = self.cursor.fetchall()
         return record
 
-    def execute(self, sql_query, values=()):
+    def execute(self, sql_query, values=(), commit=False):
         self.cursor.execute(sql_query, values)
-        result = self.cursor.fetchall()
-        return result
+        if commit:
+            self.commit()
 
     def disconnect(self):
         if self.cursor:
@@ -78,10 +78,11 @@ class Database:
     def rollback(self):
         self.connection.rollback()
 
-    def store_brute_data(self, obj, target=None):
+    def store_brute_data(self, obj, target=None, targeted_link=None):
         # timestamp = date.today()
         # new_id = str(uuid.uuid4())
-        self.execute("""  INSERT INTO companies (dict, target) VALUES (%s, %s) """, [Json(obj), target])
+        self.execute("""INSERT INTO companies (dict, target, targeted_link) VALUES (%s, %s, %s)""",
+                     [Json(obj), target, targeted_link], commit=True)
 
     def store_data(self, table, dic, uid_key=None, foreign_key=None):
         """Parameters
@@ -115,7 +116,7 @@ class Database:
                 keys_str += target
                 keys_pointer += "%s"
 
-        query = f"""  INSERT INTO {table} ({keys_str}) VALUES ({keys_pointer}) """
+        query = f"""INSERT INTO {table} ({keys_str}) VALUES ({keys_pointer})"""
 
         self.execute(query, values)
         print(query, values)
