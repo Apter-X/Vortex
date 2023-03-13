@@ -1,4 +1,4 @@
-from regex import regex as re
+import re
 
 
 class Mapper:
@@ -12,6 +12,10 @@ class Mapper:
         results = self.soup.find_all(self.schema['link']["tag"], self.schema['link']["element"])
         for result in results:
             self.links.add(result.get("href"))
+        try:
+            self.links.remove('')
+        except KeyError as e:
+            print('No empty link found.', e)
 
     def map_by_schema(self):
         funcs = self.load_funcs()
@@ -80,21 +84,13 @@ class Mapper:
     def find_regex(self, tag, target, regex):
         result = self.soup.find(tag, target)
         if result:
-            matches = re.finditer(regex, str(result))
-            for matchNum, match in enumerate(matches, start=1):
+            match = re.search(regex, str(result))
+
+            if match:
                 try:
-                    return match.group(1)
-                except Exception as e:
-                    return match.group()
-                # print("Match {matchNum} was found at {start}-{end}: {match}".format(matchNum=matchNum,
-                #                                                                     start=match.start(),
-                #                                                                     end=match.end(),
-                #                                                                     match=match.group()))
-                #
-                # for groupNum in range(0, len(match.groups())):
-                #     groupNum = groupNum + 1
-                #
-                #     print("Group {groupNum} found at {start}-{end}: {group}".format(groupNum=groupNum,
-                #                                                                     start=match.start(groupNum),
-                #                                                                     end=match.end(groupNum),
-                #                                                                     group=match.group(groupNum)))
+                    group = match.group(1)
+                except IndexError as e:
+                    group = match.group()
+                return group
+            else:
+                return None
