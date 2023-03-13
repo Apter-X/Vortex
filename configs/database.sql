@@ -12,6 +12,18 @@ create table scrap_brut
 create unique index scrap_brute_id_uindex
     on scrap_brut (id);
 
+-- Schema table --
+create table schemas
+(
+    schemas_name            text not null,
+    schemas_url             text,
+    schemas_url_prefix      text,
+    schemas_query_params    jsonb,
+    schemas_request_headers jsonb,
+    schemas_link            jsonb,
+    schemas_map             jsonb
+);
+
 -- Vue full brut data --
 create view full_data
             (br, md, yr, fl, fp, ts, km, pr, ph, pt, doors, origin, first_owner, city, scrap_date, date_time, target) as

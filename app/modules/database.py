@@ -84,6 +84,29 @@ class Database:
         self.execute("""INSERT INTO companies (dict, target, targeted_link) VALUES (%s, %s, %s)""",
                      [Json(obj), target, targeted_link], commit=True)
 
+    def store_strategy(self, obj):
+        self.execute("""INSERT INTO schemas (
+        schemas_name, 
+        schemas_url, 
+        schemas_url_prefix, 
+        schemas_query_params, 
+        schemas_request_headers,
+        schemas_link,
+        schemas_map,
+        schemas_base
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+                     [
+                         obj['name'],
+                         obj['url'],
+                         obj['prefix'],
+                         Json(obj['queries']),
+                         Json(obj['headers']),
+                         Json(obj['link']),
+                         Json(obj['map']),
+                         obj['base']
+                     ],
+                     commit=True)
+
     def store_data(self, table, dic, uid_key=None, foreign_key=None):
         """Parameters
         ----------
